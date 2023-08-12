@@ -9,7 +9,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
 
         supportFragmentManager.commit {
-            add(R.id.containerFragment, AugmentedImageFragment::class.java, Bundle())
+            add(R.id.containerFragment, AugmentedLocationFragment::class.java, Bundle())
         }
     }
 }

@@ -5,6 +5,62 @@
     android:layout_height="match_parent"
     android:clipToPadding="false">
 
+    <com.google.android.material.slider.Slider
+        android:id="@+id/pgb_x"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:valueFrom="-1.0"
+        android:value="0.0"
+        android:valueTo="1.0"
+        android:elevation="5dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.slider.Slider
+        android:id="@+id/pgb_y"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        android:valueFrom="-1.0"
+        android:value="0.0"
+        android:valueTo="1.0"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pgb_x" />
+
+    <com.google.android.material.slider.Slider
+        android:id="@+id/pgb_z"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        android:valueFrom="-1.0"
+        android:value="0.0"
+        android:valueTo="1.0"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pgb_y" />
+
+    <com.google.android.material.slider.Slider
+        android:id="@+id/pgb_q"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        android:valueFrom="-1.0"
+        android:value="0.0"
+        android:valueTo="1.0"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pgb_z" />
+
     <io.github.sceneview.ar.ArSceneView
         android:id="@+id/sceneView"
         android:layout_width="0dp"

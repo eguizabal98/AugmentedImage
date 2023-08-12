@@ -19,6 +19,7 @@ fun SceneView.addAugmentedImageNode(
     name: String,
     imagePath: String,
     glbPath: String,
+    scale: Float = 1f
 ) {
     addChild(
         AugmentedImageNode(
@@ -27,7 +28,8 @@ fun SceneView.addAugmentedImageNode(
             bitmap = context.assets.open(imagePath).use(BitmapFactory::decodeStream)
         ).apply {
             loadModelGlbAsync(
-                glbFileLocation = glbPath
+                glbFileLocation = glbPath,
+                scaleToUnits = scale
             )
         }
     )

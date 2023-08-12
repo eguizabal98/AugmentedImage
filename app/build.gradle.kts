@@ -46,5 +46,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation("androidx.fragment:fragment-ktx:$fragmentVersion")
 
-    implementation("io.github.sceneview:arsceneview:0.10.0")
+    implementation("io.github.sceneview:arsceneview:0.10.1")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+    implementation("com.google.android.gms:play-services-auth:20.6.0")
 }

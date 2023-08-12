@@ -76,7 +76,7 @@ open class VideoNode(
     val player: MediaPlayer,
     val chromaKeyColor: Int? = null,
     scaleToVideoRatio: Boolean = true,
-    val glbFileLocation: String = "models/video2.glb",
+    val glbFileLocation: String = "models/Video.glb",
     materialFileLocation: String = if (chromaKeyColor != null) {
         "sceneview/materials/video_stream_chroma_key.filamat"
     } else {
