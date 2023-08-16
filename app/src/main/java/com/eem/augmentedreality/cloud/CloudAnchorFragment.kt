@@ -63,45 +63,6 @@ class CloudAnchorFragment : Fragment(R.layout.fragment_cloud_anchor) {
         }
     }
 
-    private fun setUpView(view: View) {
-        val topGuideline = view.findViewById<Guideline>(R.id.topGuideline)
-        topGuideline.doOnApplyWindowInsets { systemBarsInsets ->
-            // Add the action bar margin
-            val actionBarHeight =
-                (requireActivity() as AppCompatActivity).supportActionBar?.height ?: 0
-            topGuideline.setGuidelineBegin(systemBarsInsets.top + actionBarHeight)
-        }
-        val bottomGuideline = view.findViewById<Guideline>(R.id.bottomGuideline)
-        bottomGuideline.doOnApplyWindowInsets { systemBarsInsets ->
-            // Add the navigation bar margin
-            bottomGuideline.setGuidelineEnd(systemBarsInsets.bottom)
-        }
-
-        loadingView = view.findViewById(R.id.loadingView)
-
-        actionButton = view.findViewById(R.id.actionButton)
-        actionButton.setOnClickListener {
-            actionButtonClicked()
-        }
-
-        editText = view.findViewById(R.id.editText)
-        editText.addTextChangedListener {
-            actionButton.isEnabled = !it.isNullOrBlank()
-        }
-
-        hostButton = view.findViewById(R.id.hostButton)
-        hostButton.setOnClickListener {
-            selectMode(Mode.HOST)
-        }
-
-        resolveButton = view.findViewById(R.id.resolveButton)
-        resolveButton.setOnClickListener {
-            selectMode(Mode.RESOLVE)
-        }
-
-        isLoading = true
-    }
-
     private fun actionButtonClicked() {
         when (mode) {
             Mode.HOME -> {}
@@ -153,6 +114,45 @@ class CloudAnchorFragment : Fragment(R.layout.fragment_cloud_anchor) {
                 selectMode(Mode.HOME)
             }
         }
+    }
+
+    private fun setUpView(view: View) {
+        val topGuideline = view.findViewById<Guideline>(R.id.topGuideline)
+        topGuideline.doOnApplyWindowInsets { systemBarsInsets ->
+            // Add the action bar margin
+            val actionBarHeight =
+                (requireActivity() as AppCompatActivity).supportActionBar?.height ?: 0
+            topGuideline.setGuidelineBegin(systemBarsInsets.top + actionBarHeight)
+        }
+        val bottomGuideline = view.findViewById<Guideline>(R.id.bottomGuideline)
+        bottomGuideline.doOnApplyWindowInsets { systemBarsInsets ->
+            // Add the navigation bar margin
+            bottomGuideline.setGuidelineEnd(systemBarsInsets.bottom)
+        }
+
+        loadingView = view.findViewById(R.id.loadingView)
+
+        actionButton = view.findViewById(R.id.actionButton)
+        actionButton.setOnClickListener {
+            actionButtonClicked()
+        }
+
+        editText = view.findViewById(R.id.editText)
+        editText.addTextChangedListener {
+            actionButton.isEnabled = !it.isNullOrBlank()
+        }
+
+        hostButton = view.findViewById(R.id.hostButton)
+        hostButton.setOnClickListener {
+            selectMode(Mode.HOST)
+        }
+
+        resolveButton = view.findViewById(R.id.resolveButton)
+        resolveButton.setOnClickListener {
+            selectMode(Mode.RESOLVE)
+        }
+
+        isLoading = true
     }
 
     private fun selectMode(mode: Mode) {
