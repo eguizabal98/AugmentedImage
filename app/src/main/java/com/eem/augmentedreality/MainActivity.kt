@@ -3,6 +3,7 @@ package com.eem.augmentedreality
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
+import com.eem.augmentedreality.geo.AugmentedLocationFragment
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
