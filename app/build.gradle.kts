@@ -25,6 +25,18 @@ android {
                 "proguard-rules.pro"
             )
         }
+        create("geo") {
+            applicationIdSuffix = ".geo"
+            signingConfig = signingConfigs.getByName("debug")
+        }
+        create("aug") {
+            applicationIdSuffix = ".aug"
+            signingConfig = signingConfigs.getByName("debug")
+        }
+        create("cloud") {
+            applicationIdSuffix = ".cloud"
+            signingConfig = signingConfigs.getByName("debug")
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -32,6 +44,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+    buildFeatures {
+        buildConfig = true
     }
 }
 

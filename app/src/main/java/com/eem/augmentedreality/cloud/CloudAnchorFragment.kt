@@ -20,15 +20,16 @@ import io.github.sceneview.ar.node.ArModelNode
 import io.github.sceneview.ar.node.PlacementMode
 import io.github.sceneview.utils.doOnApplyWindowInsets
 
+@Suppress("DEPRECATION")
 class CloudAnchorFragment : Fragment(R.layout.fragment_cloud_anchor) {
 
-    private lateinit var sceneView: ArSceneView
     private lateinit var loadingView: View
     private lateinit var editText: EditText
     private lateinit var hostButton: Button
     private lateinit var resolveButton: Button
     private lateinit var actionButton: ExtendedFloatingActionButton
 
+    private lateinit var sceneView: ArSceneView
     private lateinit var cloudAnchorNode: ArModelNode
 
     private var mode = Mode.HOME
@@ -42,6 +43,27 @@ class CloudAnchorFragment : Fragment(R.layout.fragment_cloud_anchor) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setUpView(view)
+
+        sceneView = view.findViewById(R.id.sceneView)
+        sceneView.apply {
+            cloudAnchorEnabled = true
+        }
+
+        cloudAnchorNode = ArModelNode(
+            engine = sceneView.engine,
+            placementMode = PlacementMode.BEST_AVAILABLE
+        ).apply {
+            parent = sceneView
+            isSmoothPoseEnable = false
+            isVisible = false
+            loadModelGlbAsync(glbFileLocation = "models/drone.glb") {
+                isLoading = false
+            }
+        }
+    }
+
+    private fun setUpView(view: View) {
         val topGuideline = view.findViewById<Guideline>(R.id.topGuideline)
         topGuideline.doOnApplyWindowInsets { systemBarsInsets ->
             // Add the action bar margin
@@ -53,11 +75,6 @@ class CloudAnchorFragment : Fragment(R.layout.fragment_cloud_anchor) {
         bottomGuideline.doOnApplyWindowInsets { systemBarsInsets ->
             // Add the navigation bar margin
             bottomGuideline.setGuidelineEnd(systemBarsInsets.bottom)
-        }
-
-        sceneView = view.findViewById(R.id.sceneView)
-        sceneView.apply {
-            cloudAnchorEnabled = true
         }
 
         loadingView = view.findViewById(R.id.loadingView)
@@ -83,20 +100,6 @@ class CloudAnchorFragment : Fragment(R.layout.fragment_cloud_anchor) {
         }
 
         isLoading = true
-        cloudAnchorNode =
-            ArModelNode(
-                engine = sceneView.engine,
-                placementMode = PlacementMode.BEST_AVAILABLE
-            ).apply {
-                parent = sceneView
-                isSmoothPoseEnable = false
-                isVisible = false
-                loadModelGlbAsync(
-                    glbFileLocation = "models/drone.glb"
-                ) {
-                    isLoading = false
-                }
-            }
     }
 
     private fun actionButtonClicked() {
@@ -110,8 +113,7 @@ class CloudAnchorFragment : Fragment(R.layout.fragment_cloud_anchor) {
                 }
 
                 if (sceneView.arSession?.estimateFeatureMapQualityForHosting(frame.camera.pose) == Session.FeatureMapQuality.INSUFFICIENT) {
-                    Toast.makeText(context, R.string.insufficient_visual_data, Toast.LENGTH_LONG)
-                        .show()
+                    showToastError()
                     return
                 }
 
@@ -198,6 +200,11 @@ class CloudAnchorFragment : Fragment(R.layout.fragment_cloud_anchor) {
                 }
             }
         }
+    }
+
+    private fun showToastError() {
+        Toast.makeText(context, R.string.insufficient_visual_data, Toast.LENGTH_LONG)
+            .show()
     }
 
     private enum class Mode {
