@@ -28,7 +28,7 @@
 
         <meta-data
             android:name="com.google.android.ar.API_KEY"
-            android:value="AIzaSyAg1IBNWCNuIX9ZQUuQYA4c_giV5JSxrNY"/>
+            android:value="[PLACEHOLDER]"/>
     </application>
 
 </manifest>
