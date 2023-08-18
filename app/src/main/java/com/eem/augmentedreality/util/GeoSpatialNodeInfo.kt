@@ -8,7 +8,7 @@ data class GeoSpatialNodeInfo(
     val longitude: Double,
     val altitude: Double,
     val rotation: FloatArray,
-    val modelUrl: String,
+    val modelPath: String,
     var anchor: Anchor? = null,
 ) {
     override fun equals(other: Any?): Boolean {
@@ -22,7 +22,7 @@ data class GeoSpatialNodeInfo(
         if (longitude != other.longitude) return false
         if (altitude != other.altitude) return false
         if (!rotation.contentEquals(other.rotation)) return false
-        if (modelUrl != other.modelUrl) return false
+        if (modelPath != other.modelPath) return false
 
         return true
     }
@@ -33,7 +33,7 @@ data class GeoSpatialNodeInfo(
         result = 31 * result + longitude.hashCode()
         result = 31 * result + altitude.hashCode()
         result = 31 * result + rotation.contentHashCode()
-        result = 31 * result + modelUrl.hashCode()
+        result = 31 * result + modelPath.hashCode()
         return result
     }
 

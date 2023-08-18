@@ -24,7 +24,7 @@ import io.github.sceneview.utils.doOnApplyWindowInsets
 class CloudAnchorFragment : Fragment(R.layout.fragment_cloud_anchor) {
 
     private lateinit var loadingView: View
-    private lateinit var editText: EditText
+    private lateinit var cloudAnchorID: EditText
     private lateinit var hostButton: Button
     private lateinit var resolveButton: Button
     private lateinit var actionButton: ExtendedFloatingActionButton
@@ -32,7 +32,7 @@ class CloudAnchorFragment : Fragment(R.layout.fragment_cloud_anchor) {
     private lateinit var sceneView: ArSceneView
     private lateinit var cloudAnchorNode: ArModelNode
 
-    private var mode = Mode.HOME
+    private var mode = Mode.INIT
 
     private var isLoading = false
         set(value) {
@@ -55,7 +55,6 @@ class CloudAnchorFragment : Fragment(R.layout.fragment_cloud_anchor) {
             placementMode = PlacementMode.BEST_AVAILABLE
         ).apply {
             parent = sceneView
-            isSmoothPoseEnable = false
             isVisible = false
             loadModelGlbAsync(glbFileLocation = "models/drone.glb") {
                 isLoading = false
@@ -65,7 +64,8 @@ class CloudAnchorFragment : Fragment(R.layout.fragment_cloud_anchor) {
 
     private fun actionButtonClicked() {
         when (mode) {
-            Mode.HOME -> {}
+            Mode.INIT -> {}
+
             Mode.HOST -> {
                 val frame = sceneView.currentFrame ?: return
 
@@ -80,8 +80,8 @@ class CloudAnchorFragment : Fragment(R.layout.fragment_cloud_anchor) {
 
                 cloudAnchorNode.hostCloudAnchor { anchor: Anchor, success: Boolean ->
                     if (success) {
-                        editText.setText(anchor.cloudAnchorId)
-                        selectMode(Mode.RESET)
+                        cloudAnchorID.setText(anchor.cloudAnchorId)
+                        selectMode(Mode.STANDBY)
                     } else {
                         selectMode(Mode.HOST)
                     }
@@ -94,10 +94,10 @@ class CloudAnchorFragment : Fragment(R.layout.fragment_cloud_anchor) {
             }
 
             Mode.RESOLVE -> {
-                cloudAnchorNode.resolveCloudAnchor(editText.text.toString()) { anchor: Anchor, success: Boolean ->
+                cloudAnchorNode.resolveCloudAnchor(cloudAnchorID.text.toString()) { anchor: Anchor, success: Boolean ->
                     if (success) {
                         cloudAnchorNode.isVisible = true
-                        selectMode(Mode.RESET)
+                        selectMode(Mode.STANDBY)
                     } else {
                         selectMode(Mode.RESOLVE)
                     }
@@ -109,9 +109,9 @@ class CloudAnchorFragment : Fragment(R.layout.fragment_cloud_anchor) {
                 }
             }
 
-            Mode.RESET -> {
+            Mode.STANDBY -> {
                 cloudAnchorNode.detachAnchor()
-                selectMode(Mode.HOME)
+                selectMode(Mode.INIT)
             }
         }
     }
@@ -137,8 +137,8 @@ class CloudAnchorFragment : Fragment(R.layout.fragment_cloud_anchor) {
             actionButtonClicked()
         }
 
-        editText = view.findViewById(R.id.editText)
-        editText.addTextChangedListener {
+        cloudAnchorID = view.findViewById(R.id.editText)
+        cloudAnchorID.addTextChangedListener {
             actionButton.isEnabled = !it.isNullOrBlank()
         }
 
@@ -159,8 +159,8 @@ class CloudAnchorFragment : Fragment(R.layout.fragment_cloud_anchor) {
         this.mode = mode
 
         when (mode) {
-            Mode.HOME -> {
-                editText.isVisible = false
+            Mode.INIT -> {
+                cloudAnchorID.isVisible = false
                 hostButton.isVisible = true
                 resolveButton.isVisible = true
                 actionButton.isVisible = false
@@ -180,19 +180,19 @@ class CloudAnchorFragment : Fragment(R.layout.fragment_cloud_anchor) {
             }
 
             Mode.RESOLVE -> {
-                editText.isVisible = true
+                cloudAnchorID.isVisible = true
                 hostButton.isVisible = false
                 resolveButton.isVisible = false
                 actionButton.apply {
                     setIconResource(R.drawable.ic_resolve)
                     setText(R.string.resolve)
                     isVisible = true
-                    isEnabled = editText.text.isNotEmpty()
+                    isEnabled = cloudAnchorID.text.isNotEmpty()
                 }
             }
 
-            Mode.RESET -> {
-                editText.isVisible = true
+            Mode.STANDBY -> {
+                cloudAnchorID.isVisible = true
                 actionButton.apply {
                     setIconResource(R.drawable.ic_reset)
                     setText(R.string.reset)
@@ -208,7 +208,7 @@ class CloudAnchorFragment : Fragment(R.layout.fragment_cloud_anchor) {
     }
 
     private enum class Mode {
-        HOME, HOST, RESOLVE, RESET
+        INIT, HOST, RESOLVE, STANDBY
     }
 
     companion object {

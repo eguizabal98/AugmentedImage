@@ -67,7 +67,8 @@ fun SceneView.addAugmentedVideoNode(
             }
         ).apply {
             videoNode = VideoNode(
-                engine, MediaPlayer().apply {
+                engine = engine,
+                player = MediaPlayer().apply {
                     val assetFileDescriptor = context.assets.openFd(videoPath)
                     setDataSource(
                         assetFileDescriptor.fileDescriptor,

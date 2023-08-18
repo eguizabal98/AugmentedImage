@@ -28,16 +28,16 @@ class AugmentedImageFragment : Fragment(R.layout.fragment_augmented_image) {
 
         sceneView.addAugmentedImageNode(
             context = requireContext(),
-            name = "spider",
+            name = "book",
             imagePath = "augmentedimages/p1.jpg",
-            glbPath = "models/t1.glb",
+            glbPath = "models/book.glb",
             scale = 0.5f
         )
 
         sceneView.addAugmentedVideoNode(
             context = requireContext(),
             name = "videoNode",
-            imagePath = "augmentedimages/video.png",
+            imagePath = "augmentedimages/video.jpg",
             videoPath = "vid.mp4"
         )
     }

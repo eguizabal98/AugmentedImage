@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import com.eem.augmentedreality.R
 import com.eem.augmentedreality.util.GeoSpatialNodeInfo
 import com.eem.augmentedreality.util.addArModelNode
+import com.google.ar.core.Config
 import com.google.ar.core.TrackingState
 import io.github.sceneview.ar.ArSceneView
 import io.github.sceneview.ar.node.ArModelNode
@@ -20,9 +21,10 @@ class AugmentedLocationFragment : Fragment(R.layout.fragment_augmented_image) {
         sceneView = view.findViewById(R.id.sceneView)
 
         sceneView.geospatialEnabled = true
+        sceneView.lightEstimationMode = Config.LightEstimationMode.ENVIRONMENTAL_HDR
 
         earthList.forEach {
-            sceneView.addArModelNode(it.modelUrl, it.id.toString())
+            sceneView.addArModelNode(it.modelPath, it.id.toString())
         }
 
         sceneView.onFrame = {
@@ -52,8 +54,7 @@ class AugmentedLocationFragment : Fragment(R.layout.fragment_augmented_image) {
 
     private fun updateNodeAnchor() {
         earthList.forEach { earthNode ->
-            val childNode =
-                sceneView.children.find { it.name == earthNode.id.toString() } as? ArModelNode
+            val childNode = sceneView.children.find { it.name == earthNode.id.toString() } as? ArModelNode
             earthNode.anchor?.let { anchor ->
                 childNode?.anchor = anchor
             }
@@ -91,21 +92,21 @@ class AugmentedLocationFragment : Fragment(R.layout.fragment_augmented_image) {
                 "https://raw.githubusercontent.com/eguizabal98/eguizabal98/main/sphere-blue.glb"
             ),
             GeoSpatialNodeInfo(
-                55489,
+                554389,
                 13.988014099189776, -89.60462448244064,
                 729.0,
                 floatArrayOf(0f, 0f, 0f, 0f),
                 "https://raw.githubusercontent.com/eguizabal98/eguizabal98/main/sphere-blue.glb"
             ),
             GeoSpatialNodeInfo(
-                55489,
+                515489,
                 13.987971775486532, -89.60461173282523,
                 729.0,
                 floatArrayOf(0f, 0f, 0f, 0f),
                 "https://raw.githubusercontent.com/eguizabal98/eguizabal98/main/sphere-blue.glb"
             ),
             GeoSpatialNodeInfo(
-                55489,
+                554898,
                 13.98794312559068, -89.60460636456611,
                 729.0,
                 floatArrayOf(0f, 0f, 0f, 0f),
@@ -115,7 +116,7 @@ class AugmentedLocationFragment : Fragment(R.layout.fragment_augmented_image) {
                 68923,
                 13.987888430325082, -89.6046137459224,
                 729.0,
-                floatArrayOf(0f, 0f, 0f, 0f),
+                floatArrayOf(0f, -1f, 0f, 0f),
                 "https://raw.githubusercontent.com/eguizabal98/eguizabal98/main/direction_arrow.glb"
             ),
             GeoSpatialNodeInfo(
@@ -144,7 +145,7 @@ class AugmentedLocationFragment : Fragment(R.layout.fragment_augmented_image) {
                 1157123,
                 13.987886476922654, -89.60492644702441,
                 729.0,
-                floatArrayOf(0f, 0f, 0f, 0f),
+                floatArrayOf(0f, 0f, -1f, 0f),
                 "https://raw.githubusercontent.com/eguizabal98/eguizabal98/main/direction_arrow.glb"
             ),
 
@@ -152,18 +153,8 @@ class AugmentedLocationFragment : Fragment(R.layout.fragment_augmented_image) {
                 1243643,
                 13.987792713578171, -89.60493047321926,
                 735.0,
-                floatArrayOf(0f, 0f, 0f, 0f),
+                floatArrayOf(0f, -1f, 0f, 0f),
                 "models/planet.glb"
-            )
-        )
-
-        val model2List = listOf(
-            GeoSpatialNodeInfo(
-                1123,
-                13.967590457443158, -89.56809221762066,
-                738.0,
-                floatArrayOf(0f, 0f, 0f, 0f),
-                "models/drone.glb"
             )
         )
     }
